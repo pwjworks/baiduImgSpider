@@ -1,6 +1,7 @@
 # baiduImgSpider
 Python project for parse baidu image.
-
+用scrapy写过几次爬虫，于是就想尝试不用框架实现。
+因为是新手，项目写得并不好
 项目里有四个demo
 demo是单线程的爬虫，功能是爬取百度图片原图。
 
