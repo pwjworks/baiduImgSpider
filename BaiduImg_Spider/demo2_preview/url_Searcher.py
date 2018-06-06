@@ -12,11 +12,15 @@ class Searcher(object):
         self.pn_num = 60
         self.driver = webdriver.PhantomJS()
         self.keyword = input('请输入关键词：')
-        self.num = int(input('请输入爬取张数(必须是60的倍数)：'))
+        self.num = int(input('请输入爬取张数(60的倍数)：'))
         self.threadLock = threading.RLock()
         self.url_queue = Queue()
 
     def search_in_baidu(self):
+        """
+        爬取百度图片的预览图url
+        :return:
+        """
         try:
             while True:
                 self.threadLock.acquire()
@@ -26,15 +30,15 @@ class Searcher(object):
                     '%A6%E7%89%8C&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=&z=&ic=&word=' + quote(self.keyword) +
                     '=&height=&face=&istype=&qc=&nc=&fr=&pn=' + str(page_num) + '&rn=60')
                 soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+                print(soup.text)
                 self.threadLock.release()
                 if page_num > self.num:
                     break
-                pic_url = re.findall('"objURL":"(.*?)"', soup.text, re.S)
+                pic_url = re.findall('"thumbURL":"(.*?)"', soup.text, re.S)
                 for url in pic_url:
                     self.url_queue.put(url)
         except Exception as e:
             print(e)
-        return self.url_queue
 
     def get_pn_num(self):
         try:
@@ -43,4 +47,5 @@ class Searcher(object):
             print('exception occur')
         finally:
             self.pn_num += 60
+
 

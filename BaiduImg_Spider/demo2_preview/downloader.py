@@ -28,7 +28,7 @@ class Downloader(object):
             try:
                 res = Request(pic_urls.get())
                 res.add_header('User-Agent', self.random_headers())
-                resp = urlopen(res,timeout=10)
+                resp = urlopen(res, timeout=10)
                 if str(resp.status) != '200':
                     print('未下载成功：')
                 else:
@@ -38,7 +38,6 @@ class Downloader(object):
                         print('下载完成\n' + str(index))
             except Exception as e:
                 print(e)
-
 
     def random_headers(self):
         """
@@ -67,4 +66,3 @@ class Downloader(object):
         ]
         UA = random.choice(user_agent_list)
         return UA
-
